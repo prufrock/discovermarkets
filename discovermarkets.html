@@ -5,10 +5,24 @@
 <body>
   <h1>Discover Markets!</h1>
 
-  {{> hello}}
+  
+
+  <h2>Markets near %zip%</h2>
+  <ul>
+    {{#each marketsNear}}
+      {{> market}}
+    {{/each}}
+  </ul>
 </body>
 
 <template name="hello">
   <p>Welcome. </p>
   <button>Find-a-Farmer...</button>
+</template>
+
+<template name="market">
+  <div class="market-detail">
+    <h3>{{marketname}} ({{id}})</h3>
+    <address>... address ...</address>
+  </div>
 </template>

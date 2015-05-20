@@ -1,21 +1,70 @@
 Markets = new Mongo.Collection("markets");
 
+Meteor.methods({
+
+  /** 
+   * submit a get request to the restful service zipSearch or locSearch.
+   * @param  {[type]} zip [description]
+   * @return {[type]}     [description]
+   */
+  getMarkets: function(zipcode) {
+    check(zipcode, String);
+    var marketsApi = 'http://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=' + zipcode;
+
+    //this.unblock();
+    return Meteor.http.get( marketsApi );
+    /*
+      function (error, results) {
+        console.log('getMarkets async callback');
+        return results;
+      }*/
+    //);
+  }
+});
+
 
 if (Meteor.isClient) {
-  // counter starts at 0
-  //Session.setDefault('counter', 0);
 
-  Template.hello.helpers({
-    counter: function () {
-      return Session.get('counter');
-    }
+  Template.body.helpers({
+    marketsNear: [
+      {
+        'id': '1002706',
+        'marketname': 'Downtown Festival Market'  
+      },
+      {
+        'id': '1007642',
+        'marketname': 'Gardener\'s Flea Market',
+      }
+    ]
+
+    /*Meteor.call(
+      'getMarkets',
+      '58102',
+      function(error, result) {
+        //console.log('Meteor.call async callback now');
+        //console.log(result.data);
+        return result.data;
+      }
+    )*/
   });
 
-  Template.hello.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
-    }
+  //console.log('about to startup');
+  Meteor.startup(function () {
+    // code to run on client at startup
+    // 
+    /*
+    console.log('about to call usda');
+    
+    var marketsNear = Meteor.call(
+      'getMarkets',
+      '58102',
+      function(error, result) {
+        console.log('Meteor.call async callback now');
+        console.log(result.data);
+        //return result.data;
+      }
+    );
+    */
   });
 }
 
@@ -23,28 +72,4 @@ if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
   }); 
-}
-
-function marketsCallback(results) {
-  console.log(results);
-}
-
-if (Meteor.isClient) {
-  console.log('about to startup');
-  Meteor.startup(function () {
-    // code to run on server at startup
-
-    console.log('about to call usda');
-    var zip = '58102';
-    $.get({
-      //type: "GET",
-      contentType: "application/json; charset=utf-8",
-      // submit a get request to the restful service zipSearch or locSearch.
-      url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=" + zip,
-      // or
-      // url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/locSearch?lat=" + lat + "&lng=" + lng,
-      dataType: 'jsonp',
-      jsonpCallback: 'marketsCallback'
-    });
-  });
 }

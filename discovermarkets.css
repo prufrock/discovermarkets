@@ -12,6 +12,38 @@ body {
   font-family: "Helvetica";
 }
 
+hr {
+    margin: 0; padding: 0;
+}
+
+ul {
+    width: 60%;
+}
+
 p {
   /*background: #eee;*/
+}
+
+.market-detail {
+    padding: 3px 5px;
+}
+
+.market-detail:hover {
+    background-color: #C8E6C9;
+}
+
+.market-detail .id {
+    float: right;
+    font-size: smaller;
+    font-weight: normal;
+    background-color: #A5D6A7;
+    visibility: hidden;
+}
+
+.market-detail:hover .id {
+    visibility: visible;
+}
+
+.market-detail .id small {
+
 }

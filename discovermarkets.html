@@ -5,13 +5,11 @@
 <body>
   <h1>Discover Markets!</h1>
 
-  
-
-  <h2>Markets near %zip%</h2>
+  <h2>{{ markets.length }} markets near {{ zipcode }}</h2>
   <ul>
-    {{#each marketsNear}}
-      {{> market}}
-    {{/each}}
+    {{ #each markets }}
+      {{> market }}
+    {{ /each }}
   </ul>
 </body>
 
@@ -21,8 +19,10 @@
 </template>
 
 <template name="market">
-  <div class="market-detail">
-    <h3>{{marketname}} ({{id}})</h3>
+  <hr>
+  <li class="market-detail">
+    <h3>{{ marketname }} <span class="id">[ <code>id: {{ id }}</code> ]</span></h3>
+    <p>distance: {{ distance }} miles</p>
     <address>... address ...</address>
-  </div>
+  </li>
 </template>
